@@ -1,773 +1,574 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shraddha Gupte | Data Analyst & People Analytics</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <title>Shraddha Gupte | Data & Business Analytics</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
   <style>
-    /* ── CSS Variables ─────────────────────────────────── */
     :root {
-      --navy:    #0d2d5e;
-      --blue:    #1a56c4;
-      --sky:     #3b82f6;
-      --light:   #dbeafe;
-      --pale:    #f0f6ff;
-      --white:   #ffffff;
-      --slate:   #4b6080;
-      --text:    #1e2d42;
-      --border:  #c7d9f5;
-      --radius:  12px;
-      --shadow:  0 4px 24px rgba(13,45,94,0.10);
+      --black:   #080810;
+      --deep:    #0e0e1a;
+      --purple:  #6c2bd9;
+      --violet:  #9b4dff;
+      --pink:    #d946a8;
+      --rose:    #f472b6;
+      --grey:    #9ca3af;
+      --grey-d:  #374151;
+      --grey-l:  #d1d5db;
+      --white:   #f8f8ff;
+      --card-bg: rgba(255,255,255,0.04);
+      --border:  rgba(155,77,255,0.18);
+      --radius:  14px;
+      --glow:    0 0 40px rgba(108,43,217,0.35);
     }
-
-    /* ── Reset & Base ───────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'DM Sans', sans-serif;
-      color: var(--text);
-      background: var(--white);
+      background: var(--black);
+      color: var(--white);
       line-height: 1.7;
       font-size: 16px;
+      overflow-x: hidden;
+      cursor: none;
     }
-    a { color: var(--blue); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* ── Nav ────────────────────────────────────────────── */
+    a { color: var(--violet); text-decoration: none; }
+    a:hover { color: var(--rose); }
+ 
+    /* Cursor */
+    #cursor-dot {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--violet);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9998;
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1.5px solid rgba(155,77,255,0.55);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+ 
+    /* Nav */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
+      background: rgba(8,8,16,0.88);
+      backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center;
-      padding: 0 5%;
-      height: 64px;
+      padding: 0 6%; height: 64px;
     }
     .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.25rem;
-      color: var(--navy);
-      letter-spacing: -0.02em;
+      font-family: 'DM Serif Display', serif; font-weight: 800; font-size: 1.15rem;
+      background: linear-gradient(90deg, var(--violet), var(--rose));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.875rem; font-weight: 500;
-      color: var(--slate); letter-spacing: 0.02em;
-      transition: color 0.2s;
+    .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--grey); letter-spacing: 0.03em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+ 
+    /* Sections */
+    section { padding: 100px 6%; position: relative; z-index: 1; }
+    .section-inner { max-width: 1120px; margin: 0 auto; }
+    .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--violet); margin-bottom: 0.5rem; }
+    .section-title {
+      font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 2.5rem;
+      background: linear-gradient(120deg, var(--white) 40%, var(--grey-l));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .nav-links a:hover { color: var(--blue); text-decoration: none; }
-
-    /* ── Hero ───────────────────────────────────────────── */
+    .section-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(155,77,255,0.3), transparent); margin: 0 6%; position: relative; z-index: 1; }
+ 
+    /* Hero */
     #hero {
-      min-height: 92vh;
-      background: linear-gradient(135deg, var(--navy) 0%, #1a3a6e 55%, #1a56c4 100%);
-      display: flex; align-items: center;
-      padding: 80px 5% 60px;
-      position: relative;
-      overflow: hidden;
-    }
-    #hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 60% 60% at 80% 50%, rgba(59,130,246,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(255,255,255,0.05) 0%, transparent 60%);
-      pointer-events: none;
+      min-height: 100vh;
+      background: radial-gradient(ellipse 80% 70% at 65% 50%, rgba(108,43,217,0.22) 0%, transparent 65%),
+                  radial-gradient(ellipse 50% 50% at 15% 80%, rgba(217,70,168,0.12) 0%, transparent 60%), var(--black);
+      display: flex; align-items: center; padding: 80px 6% 60px;
     }
     .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 4rem;
-      align-items: center;
-      max-width: 1100px;
-      margin: 0 auto;
-      width: 100%;
+      display: grid; grid-template-columns: 1fr 400px;
+      gap: 5rem; align-items: center; max-width: 1120px; margin: 0 auto; width: 100%;
     }
     .hero-tagline {
-      display: inline-block;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #a5c8ff;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 6px 16px;
-      border-radius: 99px;
-      margin-bottom: 1.25rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(155,77,255,0.12); border: 1px solid rgba(155,77,255,0.3);
+      color: var(--violet); font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 99px; margin-bottom: 1.4rem;
     }
+    .hero-tagline::before {
+      content: ''; display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--violet);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.4; transform:scale(1.5); } }
     .hero-name {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.8rem, 5vw, 4.4rem);
-      color: var(--white);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
+      font-family: 'DM Serif Display', serif; font-size: clamp(2.6rem, 5vw, 4.4rem);
+      font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+      color: var(--white); margin-bottom: 1.1rem;
     }
-    .hero-name em {
-      font-style: italic;
-      color: #93c5fd;
-    }
-    .hero-catchline {
-      font-size: 1.15rem;
-      color: #c7deff;
-      max-width: 520px;
-      margin-bottom: 2rem;
-      font-weight: 300;
-    }
-    .hero-pills {
-      display: flex; flex-wrap: wrap; gap: 0.6rem;
-      margin-bottom: 2.5rem;
-    }
-    .pill {
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #dbeafe;
-      padding: 5px 14px;
-      border-radius: 99px;
-      font-size: 0.82rem;
-      font-weight: 500;
-    }
+    .grad { background: linear-gradient(100deg, var(--violet), var(--pink), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: 1.05rem; color: var(--grey); max-width: 500px; margin-bottom: 2rem; font-weight: 300; line-height: 1.8; }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-bottom: 2.5rem; }
+    .pill { background: rgba(255,255,255,0.05); border: 1px solid rgba(155,77,255,0.25); color: var(--grey-l); padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 500; }
     .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
     .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 26px;
-      border-radius: var(--radius);
-      font-weight: 600; font-size: 0.9rem;
-      cursor: pointer; transition: all 0.2s;
-      text-decoration: none !important;
+      display: inline-flex; align-items: center; gap: 8px; padding: 12px 26px;
+      border-radius: var(--radius); font-weight: 600; font-size: 0.9rem;
+      cursor: none; transition: all 0.22s; text-decoration: none !important; font-family: 'DM Sans', sans-serif;
     }
-    .btn-primary {
-      background: var(--white); color: var(--navy);
-    }
-    .btn-primary:hover { background: var(--light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid rgba(255,255,255,0.45);
-      color: var(--white);
-    }
-    .btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
-
-    /* Photo frame */
-    .photo-wrap {
+    .btn-primary { background: linear-gradient(135deg, var(--purple), var(--pink)); color: var(--white); box-shadow: 0 4px 20px rgba(108,43,217,0.4); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(108,43,217,0.55); color: var(--white); }
+    .btn-outline { background: transparent; border: 1.5px solid rgba(155,77,255,0.4); color: var(--grey-l); }
+    .btn-outline:hover { border-color: var(--violet); color: var(--white); transform: translateY(-3px); }
+ 
+    /* Hero photo */
+    .hero-photo-wrap { position: relative; display: flex; justify-content: center; align-items: center; }
+    .photo-tilt { position: relative; transform: rotate(3deg); transition: transform 0.4s ease; }
+    .photo-tilt:hover { transform: rotate(0deg) scale(1.02); }
+    .photo-frame {
+      width: 320px; aspect-ratio: 3/4; border-radius: 24px;
+      overflow: hidden; border: 1px solid rgba(155,77,255,0.3);
+      box-shadow: 0 0 0 1px rgba(155,77,255,0.1), 0 30px 60px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.05);
       position: relative;
-      flex-shrink: 0;
     }
-    .photo-outer {
-      width: 220px; height: 220px;
-      border-radius: 50%;
-      padding: 5px;
-      background: linear-gradient(135deg, #93c5fd, #1a56c4, #0d2d5e);
-      box-shadow: 0 0 0 8px rgba(255,255,255,0.08), 0 20px 50px rgba(0,0,0,0.35);
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+    .photo-frame::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(108,43,217,0.28) 100%);
+      pointer-events: none;
     }
-    .photo-inner {
-      width: 100%; height: 100%;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #1e3a60;
-      display: flex; align-items: center; justify-content: center;
+    .photo-accent {
+      position: absolute; width: 320px; aspect-ratio: 3/4;
+      border-radius: 24px; border: 1px solid rgba(217,70,168,0.3);
+      transform: rotate(7deg) translate(12px, 10px); z-index: -1;
     }
-    .photo-inner img {
-      width: 100%; height: 100%;
-      object-fit: cover;
+    .photo-glow {
+      position: absolute; width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(108,43,217,0.5), transparent 70%);
+      border-radius: 50%; bottom: -30px; right: -30px;
+      filter: blur(35px); z-index: -1;
     }
-    .photo-placeholder {
-      font-size: 4rem;
-      color: rgba(255,255,255,0.35);
-      user-select: none;
-    }
-    /* Replace placeholder text with real photo by adding src to <img> */
-
-    /* ── Sections ───────────────────────────────────────── */
-    section { padding: 90px 5%; }
-    .section-inner { max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--sky);
-      margin-bottom: 0.5rem;
-    }
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
-      color: var(--navy);
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-      margin-bottom: 2.5rem;
-    }
-
-    /* ── About ──────────────────────────────────────────── */
-    #about { background: var(--pale); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    .about-text p { color: var(--slate); margin-bottom: 1rem; font-size: 1.02rem; }
-    .stat-row {
-      display: flex; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap;
-    }
+ 
+    /* About */
+    #about { background: radial-gradient(ellipse 70% 60% at 5% 50%, rgba(108,43,217,0.1) 0%, transparent 60%), var(--deep); }
+    .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 5rem; align-items: start; }
+    .about-text p { color: var(--grey); margin-bottom: 1rem; font-size: 1rem; line-height: 1.8; }
+    .about-text p strong { color: var(--white); font-weight: 600; }
+    .stat-row { display: flex; gap: 2rem; margin-top: 2.2rem; flex-wrap: wrap; }
     .stat { text-align: center; }
-    .stat-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2.2rem;
-      color: var(--blue);
-      line-height: 1;
-    }
-    .stat-desc { font-size: 0.8rem; color: var(--slate); margin-top: 4px; font-weight: 500; }
-    .skills-list {
-      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem;
-    }
-    .skill-tag {
-      background: var(--light);
-      color: var(--navy);
-      padding: 5px 14px;
-      border-radius: 99px;
-      font-size: 0.82rem;
-      font-weight: 500;
-      border: 1px solid var(--border);
-    }
-
-    /* ── Experience ─────────────────────────────────────── */
-    #experience { background: var(--white); }
+    .stat-num { font-family: 'DM Serif Display', serif; font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, var(--violet), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+    .stat-desc { font-size: 0.78rem; color: var(--grey); margin-top: 5px; font-weight: 500; }
+    .skills-list { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 1.75rem; }
+    .skill-tag { background: rgba(155,77,255,0.1); border: 1px solid rgba(155,77,255,0.25); color: var(--grey-l); padding: 5px 13px; border-radius: 99px; font-size: 0.8rem; font-weight: 500; transition: all 0.2s; }
+    .skill-tag:hover { background: rgba(155,77,255,0.2); color: var(--white); border-color: var(--violet); }
+    .cert-stack { display: flex; flex-direction: column; gap: 0.85rem; }
+    .cert-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem; transition: border-color 0.2s, background 0.2s; }
+    .cert-item:hover { border-color: var(--violet); background: rgba(155,77,255,0.08); }
+    .cert-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .cert-name { font-weight: 600; color: var(--white); font-size: 0.88rem; }
+    .cert-issuer { font-size: 0.75rem; color: var(--grey); margin-top: 2px; }
+ 
+    /* Experience */
+    #experience { background: var(--black); }
     .timeline { position: relative; }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 18px; top: 8px; bottom: 8px;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--blue), var(--light));
-    }
-    .tl-item {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: 0 1.5rem;
-      margin-bottom: 2.5rem;
-      position: relative;
-    }
-    .tl-dot {
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      background: var(--white);
-      border: 3px solid var(--blue);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      margin-top: 2px;
-      z-index: 1;
-    }
-    .tl-dot svg { width: 16px; height: 16px; fill: var(--blue); }
-    .tl-card {
-      background: var(--pale);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .tl-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
-    .tl-header {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;
-      margin-bottom: 0.4rem;
-    }
-    .tl-role {
-      font-weight: 700; color: var(--navy); font-size: 1.05rem;
-    }
-    .tl-date {
-      font-size: 0.78rem; font-weight: 600;
-      color: var(--sky);
-      background: var(--light);
-      padding: 3px 10px; border-radius: 99px;
-    }
-    .tl-company { font-size: 0.9rem; color: var(--blue); margin-bottom: 0.75rem; font-weight: 500; }
+    .timeline::before { content: ''; position: absolute; left: 19px; top: 10px; bottom: 10px; width: 2px; background: linear-gradient(to bottom, var(--purple), var(--pink), transparent); }
+    .tl-item { display: grid; grid-template-columns: 40px 1fr; gap: 0 1.5rem; margin-bottom: 2.5rem; }
+    .tl-dot { width: 40px; height: 40px; border-radius: 50%; background: var(--deep); border: 2px solid var(--violet); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; z-index: 1; box-shadow: 0 0 16px rgba(108,43,217,0.4); }
+    .tl-dot svg { width: 16px; height: 16px; stroke: var(--violet); fill: none; stroke-width: 2; }
+    .tl-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+    .tl-card:hover { border-color: rgba(155,77,255,0.5); transform: translateY(-4px); box-shadow: var(--glow); }
+    .tl-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem; }
+    .tl-role { font-family: 'DM Serif Display', serif; font-weight: 700; color: var(--white); font-size: 1rem; }
+    .tl-date { font-size: 0.75rem; font-weight: 600; color: var(--violet); background: rgba(155,77,255,0.12); padding: 3px 10px; border-radius: 99px; border: 1px solid rgba(155,77,255,0.25); }
+    .tl-company { font-size: 0.88rem; color: var(--grey); margin-bottom: 1rem; }
     .tl-card ul { list-style: none; padding: 0; }
-    .tl-card li {
-      padding: 4px 0 4px 20px;
-      position: relative;
-      color: var(--slate);
-      font-size: 0.92rem;
-    }
-    .tl-card li::before {
-      content: '▸';
-      position: absolute; left: 0;
-      color: var(--sky);
-    }
-
-    /* ── Education ──────────────────────────────────────── */
-    #education { background: var(--pale); }
-    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .edu-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem 2rem 2rem 1.75rem;
-      border-left: 5px solid var(--blue);
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .edu-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
-    .edu-degree {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.25rem; color: var(--navy);
-      margin-bottom: 0.25rem;
-    }
-    .edu-school { font-weight: 600; color: var(--blue); font-size: 0.95rem; }
-    .edu-year { font-size: 0.8rem; color: var(--slate); margin: 0.25rem 0 0.75rem; }
-    .edu-gpa {
-      display: inline-block;
-      background: #dcfce7; color: #166534;
-      font-size: 0.78rem; font-weight: 700;
-      padding: 3px 10px; border-radius: 99px;
-      margin-bottom: 0.75rem;
-    }
-    .edu-courses { font-size: 0.85rem; color: var(--slate); }
-
-    /* ── Projects ───────────────────────────────────────── */
-    #projects { background: var(--white); }
-    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
-    .proj-card {
-      background: var(--pale);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      transition: box-shadow 0.2s, transform 0.2s;
-      display: flex; flex-direction: column;
-    }
-    .proj-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
-    .proj-icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      background: var(--light);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-    }
-    .proj-title { font-weight: 700; color: var(--navy); font-size: 1.05rem; margin-bottom: 0.5rem; }
-    .proj-desc { font-size: 0.9rem; color: var(--slate); margin-bottom: 1rem; flex: 1; }
+    .tl-card li { padding: 4px 0 4px 20px; position: relative; color: var(--grey); font-size: 0.9rem; line-height: 1.65; }
+    .tl-card li::before { content: '▸'; position: absolute; left: 0; color: var(--violet); }
+ 
+    /* Education */
+    #education { background: radial-gradient(ellipse 60% 60% at 90% 30%, rgba(217,70,168,0.1) 0%, transparent 60%), var(--deep); }
+    .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    .edu-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem 1.75rem; border-top: 3px solid var(--purple); transition: transform 0.25s, box-shadow 0.25s; }
+    .edu-card:nth-child(2) { border-top-color: var(--pink); }
+    .edu-card:nth-child(3) { border-top-color: var(--grey-d); }
+    .edu-card:hover { transform: translateY(-4px); box-shadow: var(--glow); }
+    .edu-degree { font-family: 'DM Serif Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; line-height: 1.3; }
+    .edu-school { font-weight: 600; color: var(--violet); font-size: 0.88rem; }
+    .edu-year { font-size: 0.78rem; color: var(--grey); margin: 0.3rem 0 0.9rem; }
+    .edu-courses { font-size: 0.83rem; color: var(--grey); line-height: 1.6; }
+ 
+    /* Projects */
+    #projects { background: var(--black); }
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.4rem; }
+    .proj-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; display: flex; flex-direction: column; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+    .proj-card:hover { border-color: rgba(217,70,168,0.45); transform: translateY(-5px); box-shadow: 0 0 40px rgba(217,70,168,0.2); }
+    .proj-icon { width: 46px; height: 46px; border-radius: 12px; background: rgba(155,77,255,0.12); border: 1px solid rgba(155,77,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.1rem; }
+    .proj-title { font-family: 'DM Serif Display', serif; font-weight: 700; color: var(--white); font-size: 1rem; margin-bottom: 0.5rem; }
+    .proj-desc { font-size: 0.88rem; color: var(--grey); margin-bottom: 1.25rem; flex: 1; line-height: 1.7; }
     .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .proj-tag {
-      background: var(--light);
-      color: var(--blue);
-      font-size: 0.75rem; font-weight: 600;
-      padding: 3px 10px; border-radius: 99px;
-    }
-
-    /* ── Certifications ─────────────────────────────────── */
-    #certifications { background: var(--navy); }
-    #certifications .section-title { color: var(--white); }
-    #certifications .section-label { color: #93c5fd; }
-    .cert-list { display: flex; flex-wrap: wrap; gap: 1rem; }
-    .cert-card {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      display: flex; align-items: center; gap: 1rem;
-      transition: background 0.2s;
-      flex: 1; min-width: 260px;
-    }
-    .cert-card:hover { background: rgba(255,255,255,0.14); }
-    .cert-icon { font-size: 1.6rem; }
-    .cert-name { font-weight: 600; color: #dbeafe; font-size: 0.92rem; }
-    .cert-issuer { font-size: 0.78rem; color: #93c5fd; margin-top: 2px; }
-
-    /* ── Hobbies ────────────────────────────────────────── */
-    #hobbies { background: var(--pale); }
-    .hobby-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
-    .hobby-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem 1rem;
-      text-align: center;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .hobby-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
-    .hobby-emoji { font-size: 2.2rem; margin-bottom: 0.5rem; display: block; }
-    .hobby-name { font-weight: 600; color: var(--navy); font-size: 0.95rem; }
-    .hobby-desc { font-size: 0.82rem; color: var(--slate); margin-top: 4px; }
-
-    /* ── Contact / Footer ───────────────────────────────── */
+    .proj-tag { background: rgba(108,43,217,0.15); color: var(--violet); font-size: 0.73rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; border: 1px solid rgba(155,77,255,0.2); }
+ 
+    /* Hobbies */
+    #hobbies { background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(108,43,217,0.12) 0%, transparent 60%), var(--deep); }
+    .hobby-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; }
+    .hobby-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem 1rem; text-align: center; transition: border-color 0.25s, transform 0.25s; }
+    .hobby-card:hover { border-color: rgba(217,70,168,0.4); transform: translateY(-4px); }
+    .hobby-emoji { font-size: 2rem; display: block; margin-bottom: 0.65rem; }
+    .hobby-name { font-family: 'DM Serif Display', serif; font-weight: 700; color: var(--white); font-size: 0.92rem; }
+    .hobby-desc { font-size: 0.78rem; color: var(--grey); margin-top: 5px; }
+ 
+    /* Contact */
     #contact {
-      background: linear-gradient(135deg, var(--navy) 0%, #1a3a6e 60%, #1a56c4 100%);
-      padding: 80px 5% 60px;
+      background: radial-gradient(ellipse 80% 70% at 50% 0%, rgba(108,43,217,0.25) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 50% at 80% 100%, rgba(217,70,168,0.15) 0%, transparent 55%), var(--black);
       text-align: center;
     }
-    #contact .section-label { color: #93c5fd; text-align: center; }
-    #contact .section-title { color: var(--white); text-align: center; }
-    .contact-sub { color: #c7deff; max-width: 480px; margin: 0 auto 2.5rem; font-size: 1rem; }
-    .contact-btns {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
-      margin-bottom: 3rem;
-    }
-    .btn-contact {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 24px;
-      border-radius: var(--radius);
-      font-weight: 600; font-size: 0.9rem;
-      cursor: pointer; transition: all 0.2s;
-      text-decoration: none !important;
-    }
-    .btn-white { background: var(--white); color: var(--navy); }
-    .btn-white:hover { background: var(--light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-    .btn-ghost {
-      background: transparent;
-      border: 1.5px solid rgba(255,255,255,0.4);
-      color: var(--white);
-    }
-    .btn-ghost:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
-    .contact-email { color: #93c5fd; font-size: 0.95rem; margin-bottom: 2rem; }
-    .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.12); margin: 2rem 0; }
-    .footer-copy { color: rgba(255,255,255,0.35); font-size: 0.8rem; }
-
-    /* ── Responsive ─────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .hero-grid { grid-template-columns: 1fr; text-align: center; }
-      .hero-pills { justify-content: center; }
-      .hero-btns { justify-content: center; }
-      .photo-wrap { display: flex; justify-content: center; order: -1; }
-      .about-grid { grid-template-columns: 1fr; }
+    #contact .section-label, #contact .section-title { text-align: center; }
+    .contact-sub { color: var(--grey); max-width: 460px; margin: 0 auto 2.5rem; font-size: 1rem; }
+    .contact-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
+    .btn-c { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: var(--radius); font-weight: 600; font-size: 0.88rem; cursor: none; transition: all 0.22s; text-decoration: none !important; font-family: 'DM Sans', sans-serif; }
+    .btn-c-primary { background: linear-gradient(135deg, var(--purple), var(--pink)); color: var(--white); box-shadow: 0 4px 20px rgba(108,43,217,0.4); }
+    .btn-c-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(108,43,217,0.55); color: var(--white); }
+    .btn-c-ghost { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(155,77,255,0.3); color: var(--grey-l); }
+    .btn-c-ghost:hover { border-color: var(--violet); color: var(--white); transform: translateY(-3px); }
+    .contact-info { color: var(--grey); font-size: 0.9rem; margin-bottom: 3rem; }
+    .contact-info span { color: var(--grey-l); }
+    .footer-divider { border: none; border-top: 1px solid rgba(155,77,255,0.15); margin: 0 0 1.5rem; }
+    .footer-copy { color: rgba(255,255,255,0.2); font-size: 0.78rem; }
+ 
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-pills, .hero-btns, .stat-row { justify-content: center; }
+      .hero-photo-wrap { order: -1; }
       .edu-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
-
-  <!-- ── Navigation ── -->
-  <nav>
-    <span class="nav-logo">Shraddha Gupte</span>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#hobbies">Hobbies</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- ── Hero ── -->
-  <section id="hero">
-    <div class="hero-grid">
-      <div class="hero-text">
-        <span class="hero-tagline">Data Analytics · People Analytics · AI</span>
-        <h1 class="hero-name">Turning data into<br><em>decisions that matter.</em></h1>
-        <p class="hero-catchline">I'm Shraddha Gupte — a data analyst who bridges the human side of business with the power of analytics, building systems that drive real-world impact.</p>
-        <div class="hero-pills">
-          <span class="pill">Power BI</span>
-          <span class="pill">Python</span>
-          <span class="pill">SQL</span>
-          <span class="pill">Machine Learning</span>
-          <span class="pill">People Analytics</span>
-          <span class="pill">Generative AI</span>
-        </div>
-        <div class="hero-btns">
-          <a href="#experience" class="btn btn-primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
-            View My Work
-          </a>
-          <a href="#contact" class="btn btn-outline">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            Let's Connect
-          </a>
-        </div>
+ 
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<canvas id="bg-canvas"></canvas>
+ 
+<!-- Nav -->
+<nav>
+  <span class="nav-logo">Shraddha Gupte</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#hobbies">Hobbies</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+ 
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <span class="hero-tagline">Data Analytics · Business Analytics · AI</span>
+      <h1 class="hero-name">Hey, I'm Shraddha —<br><span class="grad">welcome to my world.</span></h1>
+      <p class="hero-sub">A data analyst who transforms complex information into compelling stories that drive smart, human-centred decisions. From global HR systems to AI-powered tools — I build things that matter.</p>
+      <div class="hero-pills">
+        <span class="pill">Power BI</span><span class="pill">Python</span><span class="pill">SQL</span>
+        <span class="pill">Machine Learning</span><span class="pill">People Analytics</span><span class="pill">Generative AI</span>
       </div>
-      <div class="photo-wrap">
-        <div class="photo-outer">
-          <div class="photo-inner">
-            <!-- To add your photo: replace the span below with <img src="photo.jpg" alt="Shraddha Gupte"> -->
-            <span class="photo-placeholder">👤</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── About ── -->
-  <section id="about">
-    <div class="section-inner">
-      <p class="section-label">Get to Know Me</p>
-      <h2 class="section-title">About Me</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>Hi! I'm Shraddha — a data analyst with a unique blend of technical depth and people-first thinking. With a Master's in Data Analytics from Northeastern University (GPA 3.9) and an MBA in Human Resources, I sit at the intersection of numbers and human behavior.</p>
-          <p>I've spent years transforming complex datasets into clear stories — whether tracking engagement across 8 global regions at VFS Global, building AI-powered tools that standardize policy across 144 countries, or designing dashboards that make student success measurable.</p>
-          <p>My superpower? I understand both the business problem and the human context behind the data, making my insights not just accurate — but actionable.</p>
-          <div class="stat-row">
-            <div class="stat"><div class="stat-num">3+</div><div class="stat-desc">Years in Analytics</div></div>
-            <div class="stat"><div class="stat-num">15+</div><div class="stat-desc">Dashboards Built</div></div>
-            <div class="stat"><div class="stat-num">8</div><div class="stat-desc">Global Regions</div></div>
-            <div class="stat"><div class="stat-num">144</div><div class="stat-desc">Countries Impacted</div></div>
-          </div>
-          <div class="skills-list">
-            <span class="skill-tag">Power BI</span><span class="skill-tag">Tableau</span>
-            <span class="skill-tag">Python</span><span class="skill-tag">SQL</span>
-            <span class="skill-tag">R</span><span class="skill-tag">Snowflake</span>
-            <span class="skill-tag">AWS</span><span class="skill-tag">Hadoop</span>
-            <span class="skill-tag">Workday</span><span class="skill-tag">HRIS</span>
-            <span class="skill-tag">Machine Learning</span><span class="skill-tag">ETL Pipelines</span>
-          </div>
-        </div>
-        <div>
-          <p class="section-label" style="margin-bottom:1rem;">Certifications</p>
-          <div style="display:flex;flex-direction:column;gap:1rem;">
-            <div class="edu-card" style="border-left-color:var(--sky);padding:1.25rem 1.5rem;">
-              <div class="edu-school" style="margin-bottom:4px;">🎓 Career Essentials in Data Analysis</div>
-              <div class="edu-year">Microsoft</div>
-            </div>
-            <div class="edu-card" style="border-left-color:var(--sky);padding:1.25rem 1.5rem;">
-              <div class="edu-school" style="margin-bottom:4px;">🤖 AI in the Workplace</div>
-              <div class="edu-year">Northeastern University</div>
-            </div>
-            <div class="edu-card" style="border-left-color:var(--sky);padding:1.25rem 1.5rem;">
-              <div class="edu-school" style="margin-bottom:4px;">❄️ Building Generative AI Apps to Talk to Your Data</div>
-              <div class="edu-year">Snowflake</div>
-            </div>
-            <div class="edu-card" style="border-left-color:var(--sky);padding:1.25rem 1.5rem;">
-              <div class="edu-school" style="margin-bottom:4px;">🏅 SHRM-CP & HRCI-PHR</div>
-              <div class="edu-year">Human Resources Certifications</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Experience ── -->
-  <section id="experience">
-    <div class="section-inner">
-      <p class="section-label">Career Journey</p>
-      <h2 class="section-title">Work Experience</h2>
-      <div class="timeline">
-
-        <div class="tl-item">
-          <div class="tl-dot">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          </div>
-          <div class="tl-card">
-            <div class="tl-header">
-              <div class="tl-role">Data Analyst — Capstone Project</div>
-              <span class="tl-date">Apr 2025 – Jun 2025</span>
-            </div>
-            <div class="tl-company">Intelmatix, USA</div>
-            <ul>
-              <li>Built an AI-based assistant integrating ERD interpretation and NL-to-SQL generation, cutting manual query time by 40%.</li>
-              <li>Designed healthcare data-flow logic and optimized SQL generation pipelines via ERD-based query mapping.</li>
-              <li>Developed automated data transformation workflows using Python (Pandas) and Streamlit across 5+ datasets.</li>
-              <li>Engineered optimized prompts for large language models, boosting SQL accuracy by 30% and improving real-time analytics.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-dot">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          </div>
-          <div class="tl-card">
-            <div class="tl-header">
-              <div class="tl-role">Graduate Data Analyst — Student Engagement</div>
-              <span class="tl-date">Jan 2024 – Jun 2025</span>
-            </div>
-            <div class="tl-company">Northeastern University, USA</div>
-            <ul>
-              <li>Designed 15+ dashboards to track performance metrics across engagement programs and identify gaps.</li>
-              <li>Analyzed engagement trends and campaign effectiveness using A/B testing to optimize delivery and participation.</li>
-              <li>Extracted and transformed student engagement data from multiple sources using SQL and Python.</li>
-              <li>Led fit-gap analysis to propose DEI-focused strategies, enhancing inclusivity across academic initiatives.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-dot">
-            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          </div>
-          <div class="tl-card">
-            <div class="tl-header">
-              <div class="tl-role">Deputy Manager, People Analytics</div>
-              <span class="tl-date">Aug 2020 – Jan 2024</span>
-            </div>
-            <div class="tl-company">VFS Global — Visa Facilitating Services, Mumbai, India</div>
-            <ul>
-              <li>Analyzed employee lifecycle data and surveys, driving engagement up by 97% and satisfaction by 74%.</li>
-              <li>Developed Power BI dashboards across 8 regions to identify workforce trends and inform strategic decisions.</li>
-              <li>Built automated ETL workflows to consolidate data across 8 global regions, improving refresh reliability.</li>
-              <li>Designed an AI-powered Policy Creation Tracker, boosting standardization efficiency by 81% across 144 countries.</li>
-              <li>Streamlined compliance checks for 450+ global policies in collaboration with cross-functional leaders.</li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Education ── -->
-  <section id="education">
-    <div class="section-inner">
-      <p class="section-label">Academic Background</p>
-      <h2 class="section-title">Education</h2>
-      <div class="edu-grid">
-        <div class="edu-card">
-          <div class="edu-degree">M.S. in Data Analytics</div>
-          <div class="edu-school">Northeastern University</div>
-          <div class="edu-year">2024 – 2025 &nbsp;·&nbsp; Boston, USA</div>
-          <span class="edu-gpa">GPA 3.9 / 4.0</span>
-          <div class="edu-courses">Data Mining · Statistics · Data Visualization · Analytics · Generative AI</div>
-        </div>
-        <div class="edu-card">
-          <div class="edu-degree">MBA, Human Resources</div>
-          <div class="edu-school">University of Mumbai</div>
-          <div class="edu-year">2018 – 2020 &nbsp;·&nbsp; Mumbai, India</div>
-          <div class="edu-courses">Human Resource Management · Organizational Behavior · Strategic HR · Talent Analytics</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Projects ── -->
-  <section id="projects">
-    <div class="section-inner">
-      <p class="section-label">What I've Built</p>
-      <h2 class="section-title">Projects</h2>
-      <div class="proj-grid">
-
-        <div class="proj-card">
-          <div class="proj-icon">🎵</div>
-          <div class="proj-title">Spotify Music Analysis</div>
-          <div class="proj-desc">Built a reproducible ETL pipeline in Python to ingest, clean, and load 50,000+ music records into Power BI. Derived insights linking tempo, energy, and danceability to guide music producers in data-driven decisions.</div>
-          <div class="proj-tags">
-            <span class="proj-tag">Python</span><span class="proj-tag">Power BI</span><span class="proj-tag">ETL</span><span class="proj-tag">Market Analysis</span>
-          </div>
-        </div>
-
-        <div class="proj-card">
-          <div class="proj-icon">🥗</div>
-          <div class="proj-title">AI-Enhanced Food Waste Prevention</div>
-          <div class="proj-desc">Developed an AI-powered food management system for Too Good To Go, optimizing inventory, pricing, and distribution. Implemented real-time analytics and route optimization to reduce food waste and improve operational efficiency.</div>
-          <div class="proj-tags">
-            <span class="proj-tag">AI/ML</span><span class="proj-tag">Real-time Analytics</span><span class="proj-tag">Sustainability</span>
-          </div>
-        </div>
-
-        <div class="proj-card">
-          <div class="proj-icon">🏥</div>
-          <div class="proj-title">NL-to-SQL Healthcare Assistant</div>
-          <div class="proj-desc">Built an AI assistant at Intelmatix that converts natural language questions to SQL by interpreting ERDs, reducing manual query time by 40% and improving SQL accuracy by 30% through prompt engineering.</div>
-          <div class="proj-tags">
-            <span class="proj-tag">LLM</span><span class="proj-tag">Streamlit</span><span class="proj-tag">SQL</span><span class="proj-tag">Prompt Engineering</span>
-          </div>
-        </div>
-
-        <div class="proj-card">
-          <div class="proj-icon">📊</div>
-          <div class="proj-title">Global HR Analytics Platform</div>
-          <div class="proj-desc">Designed automated ETL workflows and Power BI dashboards deployed across 8 regions. Created an AI-powered Policy Creation Tracker that boosted standardization efficiency by 81% across 144 countries.</div>
-          <div class="proj-tags">
-            <span class="proj-tag">Power BI</span><span class="proj-tag">ETL</span><span class="proj-tag">People Analytics</span><span class="proj-tag">AI</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Certifications strip ── -->
-  <section id="certifications">
-    <div class="section-inner">
-      <p class="section-label">Credentials</p>
-      <h2 class="section-title">Certifications</h2>
-      <div class="cert-list">
-        <div class="cert-card">
-          <span class="cert-icon">🪟</span>
-          <div><div class="cert-name">Career Essentials in Data Analysis</div><div class="cert-issuer">Microsoft</div></div>
-        </div>
-        <div class="cert-card">
-          <span class="cert-icon">🤖</span>
-          <div><div class="cert-name">AI in the Workplace</div><div class="cert-issuer">Northeastern University</div></div>
-        </div>
-        <div class="cert-card">
-          <span class="cert-icon">❄️</span>
-          <div><div class="cert-name">Building Generative AI Apps to Talk to Your Data</div><div class="cert-issuer">Snowflake</div></div>
-        </div>
-        <div class="cert-card">
-          <span class="cert-icon">🏅</span>
-          <div><div class="cert-name">SHRM-CP &amp; HRCI-PHR</div><div class="cert-issuer">HR Certifications</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Hobbies ── -->
-  <section id="hobbies">
-    <div class="section-inner">
-      <p class="section-label">Outside the Data</p>
-      <h2 class="section-title">Hobbies &amp; Interests</h2>
-      <div class="hobby-grid">
-        <div class="hobby-card">
-          <span class="hobby-emoji">📚</span>
-          <div class="hobby-name">Reading</div>
-          <div class="hobby-desc">Non-fiction, behavioral economics &amp; tech</div>
-        </div>
-        <div class="hobby-card">
-          <span class="hobby-emoji">🧘</span>
-          <div class="hobby-name">Yoga &amp; Mindfulness</div>
-          <div class="hobby-desc">Daily practice for clarity &amp; focus</div>
-        </div>
-        <div class="hobby-card">
-          <span class="hobby-emoji">✈️</span>
-          <div class="hobby-name">Traveling</div>
-          <div class="hobby-desc">Exploring cultures &amp; perspectives</div>
-        </div>
-        <div class="hobby-card">
-          <span class="hobby-emoji">🎨</span>
-          <div class="hobby-name">Data Storytelling</div>
-          <div class="hobby-desc">Crafting visuals that captivate</div>
-        </div>
-        <div class="hobby-card">
-          <span class="hobby-emoji">🍳</span>
-          <div class="hobby-name">Cooking</div>
-          <div class="hobby-desc">Experimenting with global cuisines</div>
-        </div>
-        <div class="hobby-card">
-          <span class="hobby-emoji">🎧</span>
-          <div class="hobby-name">Music</div>
-          <div class="hobby-desc">From Bollywood to lo-fi beats</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Contact ── -->
-  <section id="contact">
-    <div class="section-inner">
-      <p class="section-label">Say Hello</p>
-      <h2 class="section-title">Let's Work Together</h2>
-      <p class="contact-sub">Whether you're looking for a data analyst, want to collaborate, or just want to chat about analytics — my inbox is always open.</p>
-      <div class="contact-btns">
-        <a href="mailto:shraddha.p.gupte@gmail.com" class="btn-contact btn-white">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          Email Me
+      <div class="hero-btns">
+        <a href="#experience" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
+          View My Work
         </a>
-        <a href="https://linkedin.com/in/shraddhapg" target="_blank" class="btn-contact btn-ghost">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://github.com/" target="_blank" class="btn-contact btn-ghost">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S9 17.44 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-          GitHub
-        </a>
-        <a href="SHRADDHA_GUPTE__Resume_.pdf" download class="btn-contact btn-ghost">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download Resume
+        <a href="#contact" class="btn btn-outline">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Let's Connect
         </a>
       </div>
-      <p class="contact-email">📧 shraddha.p.gupte@gmail.com &nbsp;·&nbsp; 📞 +1 206-501-8951</p>
-      <hr class="footer-divider"/>
-      <p class="footer-copy">© 2025 Shraddha Gupte · Designed &amp; Built with ♥</p>
     </div>
-  </section>
-
-</body>
-</html>
+    <div class="hero-photo-wrap">
+      <div class="photo-glow"></div>
+      <div class="photo-accent"></div>
+      <div class="photo-tilt">
+        <div class="photo-frame">
+          <img src="shraddha.jpg" alt="Shraddha Gupte"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<div class="section-divider"></div>
+ 
+<!-- About -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-label">If you're wondering…</p>
+    <h2 class="section-title">Why Me?</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm Shraddha — a data analyst with a rare combination of <strong>technical depth and people-first thinking</strong>. With an M.S. in Data Analytics from Northeastern University and an MBA in Human Resources, I sit at the intersection of numbers and human behaviour.</p>
+        <p>I've spent years turning messy, complex datasets into clear strategies — whether tracking workforce engagement across <strong>8 global regions</strong> at VFS Global, building AI-powered tools that standardise policy across <strong>144 countries</strong>, or designing dashboards that make student success measurable.</p>
+        <p>My edge? I don't just analyse data — I <strong>understand the business problem and the human context behind it</strong>, making my insights not just accurate, but genuinely actionable.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="stat-num">3+</div><div class="stat-desc">Years in Analytics</div></div>
+          <div class="stat"><div class="stat-num">15+</div><div class="stat-desc">Dashboards Built</div></div>
+          <div class="stat"><div class="stat-num">8</div><div class="stat-desc">Global Regions</div></div>
+          <div class="stat"><div class="stat-num">144</div><div class="stat-desc">Countries Impacted</div></div>
+        </div>
+        <div class="skills-list">
+          <span class="skill-tag">Power BI</span><span class="skill-tag">Tableau</span><span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span><span class="skill-tag">R</span><span class="skill-tag">Snowflake</span>
+          <span class="skill-tag">AWS</span><span class="skill-tag">Hadoop</span><span class="skill-tag">Workday</span>
+          <span class="skill-tag">HRIS</span><span class="skill-tag">Machine Learning</span><span class="skill-tag">ETL Pipelines</span>
+        </div>
+      </div>
+      <div>
+        <p class="section-label" style="margin-bottom:1rem;">Certifications &amp; Credentials</p>
+        <div class="cert-stack">
+          <div class="cert-item"><span class="cert-icon">🪟</span><div><div class="cert-name">Career Essentials in Data Analysis</div><div class="cert-issuer">Microsoft</div></div></div>
+          <div class="cert-item"><span class="cert-icon">🤖</span><div><div class="cert-name">AI in the Workplace</div><div class="cert-issuer">Northeastern University</div></div></div>
+          <div class="cert-item"><span class="cert-icon">❄️</span><div><div class="cert-name">Building Generative AI Apps to Talk to Your Data</div><div class="cert-issuer">Snowflake</div></div></div>
+          <div class="cert-item"><span class="cert-icon">🏅</span><div><div class="cert-name">SHRM-CP &amp; HRCI-PHR</div><div class="cert-issuer">Human Resources Certifications</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<div class="section-divider"></div>
+ 
+<!-- Experience -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="section-label">Career Journey</p>
+    <h2 class="section-title">Work Experience</h2>
+    <div class="timeline">
+ 
+      <div class="tl-item">
+        <div class="tl-dot"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="tl-card">
+          <div class="tl-header"><div class="tl-role">Data Analyst — Capstone Project</div><span class="tl-date">Apr 2025 – Jun 2025</span></div>
+          <div class="tl-company">Intelmatix, USA</div>
+          <ul>
+            <li>Built an AI-based assistant integrating ERD interpretation and NL-to-SQL generation, cutting manual query time by 40%.</li>
+            <li>Designed healthcare data-flow logic and optimised SQL generation pipelines via ERD-based query mapping.</li>
+            <li>Developed automated data transformation workflows using Python (Pandas) and Streamlit across 5+ datasets.</li>
+            <li>Engineered optimised prompts for LLMs, boosting SQL accuracy by 30% and improving real-time analytics.</li>
+          </ul>
+        </div>
+      </div>
+ 
+      <div class="tl-item">
+        <div class="tl-dot"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div class="tl-card">
+          <div class="tl-header"><div class="tl-role">Graduate Data Analyst — Student Engagement</div><span class="tl-date">Jan 2024 – Jun 2025</span></div>
+          <div class="tl-company">Northeastern University, USA</div>
+          <ul>
+            <li>Designed 15+ dashboards to track performance metrics across engagement programs and identify gaps.</li>
+            <li>Analysed engagement trends and campaign effectiveness using A/B testing to optimise delivery and participation.</li>
+            <li>Extracted and transformed student engagement data from multiple sources using SQL and Python.</li>
+            <li>Led fit-gap analysis to propose DEI-focused strategies, enhancing inclusivity across academic initiatives.</li>
+          </ul>
+        </div>
+      </div>
+ 
+      <div class="tl-item">
+        <div class="tl-dot"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+        <div class="tl-card">
+          <div class="tl-header"><div class="tl-role">Deputy Manager, People Analytics</div><span class="tl-date">Aug 2020 – Jan 2024</span></div>
+          <div class="tl-company">VFS Global — Visa Facilitating Services, Mumbai, India</div>
+          <ul>
+            <li>Analysed employee lifecycle data and surveys, driving engagement up by 97% and satisfaction by 74%.</li>
+            <li>Developed Power BI dashboards across 8 regions to identify workforce trends and inform strategic decisions.</li>
+            <li>Built automated ETL workflows to consolidate data across 8 global regions, improving refresh reliability.</li>
+            <li>Designed an AI-powered Policy Creation Tracker, boosting standardisation efficiency by 81% across 144 countries.</li>
+            <li>Streamlined compliance checks for 450+ global policies in collaboration with cross-functional leaders.</li>
+          </ul>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+</section>
+ 
+<div class="section-divider"></div>
+ 
+<!-- Education -->
+<section id="education">
+  <div class="section-inner">
+    <p class="section-label">Academic Background</p>
+    <h2 class="section-title">Education</h2>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-degree">M.S. in Data Analytics</div>
+        <div class="edu-school">Northeastern University</div>
+        <div class="edu-year">2024 – 2025 · Boston, USA</div>
+        <div class="edu-courses">Data Mining · Statistics · Data Visualization · Analytics · Generative AI</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">MBA, Human Resources</div>
+        <div class="edu-school">University of Mumbai</div>
+        <div class="edu-year">2018 – 2020 · Mumbai, India</div>
+        <div class="edu-courses">Human Resource Management · Organisational Behavior · Strategic HR · Talent Analytics</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">Bachelor of Commerce (B.Com)</div>
+        <div class="edu-school">University of Mumbai</div>
+        <div class="edu-year">2015 – 2018 · Mumbai, India</div>
+        <div class="edu-courses">Accounting · Economics · Business Studies · Financial Management · Statistics</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<div class="section-divider"></div>
+ 
+<!-- Projects -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-label">What I've Built</p>
+    <h2 class="section-title">Projects</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-icon">🎵</div>
+        <div class="proj-title">Spotify Music Analysis</div>
+        <div class="proj-desc">Built a reproducible ETL pipeline in Python to ingest, clean, and load 50,000+ music records into Power BI. Derived insights linking tempo, energy, and danceability to guide data-driven decisions for music producers.</div>
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Power BI</span><span class="proj-tag">ETL</span><span class="proj-tag">Market Analysis</span></div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">🥗</div>
+        <div class="proj-title">AI-Enhanced Food Waste Prevention</div>
+        <div class="proj-desc">Developed an AI-powered food management system for Too Good To Go, optimising inventory, pricing, and distribution. Implemented real-time analytics and route optimisation to reduce food waste.</div>
+        <div class="proj-tags"><span class="proj-tag">AI/ML</span><span class="proj-tag">Real-time Analytics</span><span class="proj-tag">Sustainability</span></div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">🏥</div>
+        <div class="proj-title">NL-to-SQL Healthcare Assistant</div>
+        <div class="proj-desc">Built an AI assistant at Intelmatix converting natural language questions to SQL by interpreting ERDs, reducing manual query time by 40% and improving SQL accuracy by 30% through prompt engineering.</div>
+        <div class="proj-tags"><span class="proj-tag">LLM</span><span class="proj-tag">Streamlit</span><span class="proj-tag">SQL</span><span class="proj-tag">Prompt Engineering</span></div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">📊</div>
+        <div class="proj-title">Global HR Analytics Platform</div>
+        <div class="proj-desc">Designed automated ETL workflows and Power BI dashboards across 8 regions. Created an AI-powered Policy Creation Tracker boosting standardisation efficiency by 81% across 144 countries.</div>
+        <div class="proj-tags"><span class="proj-tag">Power BI</span><span class="proj-tag">ETL</span><span class="proj-tag">People Analytics</span><span class="proj-tag">AI</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<div class="section-divider"></div>
+ 
+<!-- Hobbies -->
+<section id="hobbies">
+  <div class="section-inner">
+    <p class="section-label">Outside the Data</p>
+    <h2 class="section-title">Hobbies &amp; Interests</h2>
+    <div class="hobby-grid">
+      <div class="hobby-card"><span class="hobby-emoji">📚</span><div class="hobby-name">Reading</div><div class="hobby-desc">Non-fiction, behavioural economics &amp; tech</div></div>
+      <div class="hobby-card"><span class="hobby-emoji">🧘</span><div class="hobby-name">Yoga &amp; Mindfulness</div><div class="hobby-desc">Daily practice for clarity &amp; focus</div></div>
+      <div class="hobby-card"><span class="hobby-emoji">✈️</span><div class="hobby-name">Travelling</div><div class="hobby-desc">Exploring cultures &amp; perspectives</div></div>
+      <div class="hobby-card"><span class="hobby-emoji">🎨</span><div class="hobby-name">Data Storytelling</div><div class="hobby-desc">Crafting visuals that captivate</div></div>
+      <div class="hobby-card"><span class="hobby-emoji">🍳</span><div class="hobby-name">Cooking</div><div class="hobby-desc">Experimenting with global cuisines</div></div>
+      <div class="hobby-card"><span class="hobby-emoji">🎧</span><div class="hobby-name">Music</div><div class="hobby-desc">From Bollywood to lo-fi beats</div></div>
+    </div>
+  </div>
+</section>
+ 
+<div class="section-divider"></div>
+ 
+<!-- Contact -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label">Say Hello</p>
+    <h2 class="section-title">Let's Work Together</h2>
+    <p class="contact-sub">Whether you're looking for a data analyst, want to collaborate, or just want to talk analytics — my inbox is always open.</p>
+    <div class="contact-btns">
+      <a href="/cdn-cgi/l/email-protection#65160d170401010d044b154b0210151100250208040c094b060a08" class="btn-c btn-c-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Email Me
+      </a>
+      <a href="https://linkedin.com/in/shraddhapg" target="_blank" class="btn-c btn-c-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/" target="_blank" class="btn-c btn-c-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S9 17.44 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        GitHub
+      </a>
+      <a href="SHRADDHA_GUPTE__Resume_.pdf" download class="btn-c btn-c-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Resume
+      </a>
+    </div>
+    <p class="contact-info"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d0a3b8a2b1b4b4b8b1fea0feb7a5a0a4b590b7bdb1b9bcfeb3bfbd">[email&#160;protected]</a></span> &nbsp;·&nbsp; <span>+1 206-501-8951</span></p>
+    <hr class="footer-divider"/>
+    <p class="footer-copy">© 2025 Shraddha Gupte · Designed &amp; Built with ♥</p>
+  </div>
+</section>
+ 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  /* ── Custom Cursor ── */
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width='54px'; ring.style.height='54px'; ring.style.borderColor='rgba(217,70,168,0.8)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width='38px'; ring.style.height='38px'; ring.style.borderColor='rgba(155,77,255,0.55)'; });
+  });
+  (function animateCursor() {
+    dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
+    rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  })();
+ 
+  /* ── Particle Canvas ── */
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H;
+  const mouse  = { x: -999, y: -999 };
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+ 
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x = Math.random() * W; this.y = init ? Math.random() * H : H + 10;
+      this.r = Math.random() * 1.6 + 0.3;
+      this.vx = (Math.random() - 0.5) * 0.25; this.vy = -(Math.random() * 0.35 + 0.08);
+      this.alpha = Math.random() * 0.45 + 0.08;
+      const roll = Math.random();
+      this.color = roll < 0.5 ? '155,77,255' : roll < 0.78 ? '217,70,168' : '156,163,175';
+    }
+    update() {
+      const dx = mouse.x - this.x, dy = mouse.y - this.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 130) { const f = (130-dist)/130; this.vx -= (dx/dist)*f*0.55; this.vy -= (dy/dist)*f*0.55; }
+      this.vx *= 0.978; this.vy *= 0.978;
+      this.x += this.vx; this.y += this.vy;
+      if (this.y < -10 || this.x < -10 || this.x > W+10) this.reset(false);
+    }
+    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fillStyle = `rgba(${this.color},${this.alpha})`; ctx.fill(); }
+  }
+ 
+  const particles = Array.from({ length: 180 }, () => new Particle());
+ 
+  function drawLines() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i+1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 95) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].
