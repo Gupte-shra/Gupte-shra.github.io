@@ -31,69 +31,37 @@
       line-height: 1.7;
       font-size: 16px;
       overflow-x: hidden;
-      cursor: none;
+      cursor: auto;
     }
-    body { cursor: none; }
-
-      #cursor-dot {
-        position: fixed;
-        top: 0; left: 0;
-        z-index: 9999;
-        width: 10px; height: 10px;
-        border-radius: 50%;
-        background: #9b4dff;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        mix-blend-mode: screen;
-      }
-      
-      #cursor-ring {
-        position: fixed;
-        top: 0; left: 0;
-        z-index: 9998;
-        width: 38px; height: 38px;
-        border-radius: 50%;
-        border: 1.5px solid rgba(155,77,255,0.55);
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        transition: width 0.2s, height 0.2s, border-color 0.2s;
-      }
     a { color: var(--violet); text-decoration: none; }
     a:hover { color: var(--rose); }
- 
-  /* ── Custom Cursor ── */
-  const dot  = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-  });
+    /* Cursor */
+    #cursor-dot {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--violet);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9998;
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1.5px solid rgba(155,77,255,0.55);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    #about      { background: rgba(14,14,26,0.78) !important; }
+    #experience { background: rgba(8,8,16,0.78) !important; }
+    #education  { background: rgba(14,14,26,0.78) !important; }
+    #projects   { background: rgba(8,8,16,0.78) !important; }
+    #hobbies    { background: rgba(14,14,26,0.78) !important; }
+    #contact    { background: rgba(8,8,16,0.85) !important; }
+    #hero       { background: radial-gradient(ellipse 80% 70% at 65% 50%, rgba(108,43,217,0.18) 0%, transparent 65%), radial-gradient(ellipse 50% 50% at 15% 80%, rgba(217,70,168,0.08) 0%, transparent 60%) !important; }
 
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      ring.style.width       = '54px';
-      ring.style.height      = '54px';
-      ring.style.borderColor = 'rgba(217,70,168,0.8)';
-    });
-    el.addEventListener('mouseleave', () => {
-      ring.style.width       = '38px';
-      ring.style.height      = '38px';
-      ring.style.borderColor = 'rgba(155,77,255,0.55)';
-    });
-  });
-
-  (function animateCursor() {
-    dot.style.left  = mx + 'px';
-    dot.style.top   = my + 'px';
-    rx += (mx - rx) * 0.13;
-    ry += (my - ry) * 0.13;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(animateCursor);
-  })();
- 
     /* Nav */
     nav {
       position: sticky; top: 0; z-index: 100;
@@ -111,7 +79,7 @@
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--grey); letter-spacing: 0.03em; transition: color 0.2s; }
     .nav-links a:hover { color: var(--white); }
- 
+
     /* Sections */
     section { padding: 100px 6%; position: relative; z-index: 1; }
     .section-inner { max-width: 1120px; margin: 0 auto; }
@@ -123,7 +91,7 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .section-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(155,77,255,0.3), transparent); margin: 0 6%; position: relative; z-index: 1; }
- 
+
     /* Hero */
     #hero {
       min-height: 100vh;
@@ -161,13 +129,13 @@
     .btn {
       display: inline-flex; align-items: center; gap: 8px; padding: 12px 26px;
       border-radius: var(--radius); font-weight: 600; font-size: 0.9rem;
-      cursor: none; transition: all 0.22s; text-decoration: none !important; font-family: 'DM Sans', sans-serif;
+      cursor: auto; transition: all 0.22s; text-decoration: none !important; font-family: 'DM Sans', sans-serif;
     }
     .btn-primary { background: linear-gradient(135deg, var(--purple), var(--pink)); color: var(--white); box-shadow: 0 4px 20px rgba(108,43,217,0.4); }
     .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(108,43,217,0.55); color: var(--white); }
     .btn-outline { background: transparent; border: 1.5px solid rgba(155,77,255,0.4); color: var(--grey-l); }
     .btn-outline:hover { border-color: var(--violet); color: var(--white); transform: translateY(-3px); }
- 
+
     /* Hero photo */
     .hero-photo-wrap { position: relative; display: flex; justify-content: center; align-items: center; }
     .photo-tilt { position: relative; transform: rotate(3deg); transition: transform 0.4s ease; }
@@ -195,7 +163,7 @@
       border-radius: 50%; bottom: -30px; right: -30px;
       filter: blur(35px); z-index: -1;
     }
- 
+
     /* About */
     #about { background: radial-gradient(ellipse 70% 60% at 5% 50%, rgba(108,43,217,0.1) 0%, transparent 60%), var(--deep); }
     .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 5rem; align-items: start; }
@@ -214,7 +182,7 @@
     .cert-icon { font-size: 1.4rem; flex-shrink: 0; }
     .cert-name { font-weight: 600; color: var(--white); font-size: 0.88rem; }
     .cert-issuer { font-size: 0.75rem; color: var(--grey); margin-top: 2px; }
- 
+
     /* Experience */
     #experience { background: var(--black); }
     .timeline { position: relative; }
@@ -231,7 +199,7 @@
     .tl-card ul { list-style: none; padding: 0; }
     .tl-card li { padding: 4px 0 4px 20px; position: relative; color: var(--grey); font-size: 0.9rem; line-height: 1.65; }
     .tl-card li::before { content: '▸'; position: absolute; left: 0; color: var(--violet); }
- 
+
     /* Education */
     #education { background: radial-gradient(ellipse 60% 60% at 90% 30%, rgba(217,70,168,0.1) 0%, transparent 60%), var(--deep); }
     .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
@@ -243,7 +211,7 @@
     .edu-school { font-weight: 600; color: var(--violet); font-size: 0.88rem; }
     .edu-year { font-size: 0.78rem; color: var(--grey); margin: 0.3rem 0 0.9rem; }
     .edu-courses { font-size: 0.83rem; color: var(--grey); line-height: 1.6; }
- 
+
     /* Projects */
     #projects { background: var(--black); }
     .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.4rem; }
@@ -254,7 +222,7 @@
     .proj-desc { font-size: 0.88rem; color: var(--grey); margin-bottom: 1.25rem; flex: 1; line-height: 1.7; }
     .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .proj-tag { background: rgba(108,43,217,0.15); color: var(--violet); font-size: 0.73rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; border: 1px solid rgba(155,77,255,0.2); }
- 
+
     /* Hobbies */
     #hobbies { background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(108,43,217,0.12) 0%, transparent 60%), var(--deep); }
     .hobby-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; }
@@ -263,7 +231,7 @@
     .hobby-emoji { font-size: 2rem; display: block; margin-bottom: 0.65rem; }
     .hobby-name { font-family: 'DM Serif Display', serif; font-weight: 700; color: var(--white); font-size: 0.92rem; }
     .hobby-desc { font-size: 0.78rem; color: var(--grey); margin-top: 5px; }
- 
+
     /* Contact */
     #contact {
       background: radial-gradient(ellipse 80% 70% at 50% 0%, rgba(108,43,217,0.25) 0%, transparent 60%),
@@ -273,7 +241,7 @@
     #contact .section-label, #contact .section-title { text-align: center; }
     .contact-sub { color: var(--grey); max-width: 460px; margin: 0 auto 2.5rem; font-size: 1rem; }
     .contact-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
-    .btn-c { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: var(--radius); font-weight: 600; font-size: 0.88rem; cursor: none; transition: all 0.22s; text-decoration: none !important; font-family: 'DM Sans', sans-serif; }
+    .btn-c { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: var(--radius); font-weight: 600; font-size: 0.88rem; cursor: auto; transition: all 0.22s; text-decoration: none !important; font-family: 'DM Sans', sans-serif; }
     .btn-c-primary { background: linear-gradient(135deg, var(--purple), var(--pink)); color: var(--white); box-shadow: 0 4px 20px rgba(108,43,217,0.4); }
     .btn-c-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(108,43,217,0.55); color: var(--white); }
     .btn-c-ghost { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(155,77,255,0.3); color: var(--grey-l); }
@@ -282,7 +250,7 @@
     .contact-info span { color: var(--grey-l); }
     .footer-divider { border: none; border-top: 1px solid rgba(155,77,255,0.15); margin: 0 0 1.5rem; }
     .footer-copy { color: rgba(255,255,255,0.2); font-size: 0.78rem; }
- 
+
     /* Responsive */
     @media (max-width: 900px) {
       .hero-grid, .about-grid { grid-template-columns: 1fr; text-align: center; }
@@ -294,14 +262,14 @@
   </style>
 </head>
 <body>
- 
+
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
 <canvas id="bg-canvas"></canvas>
- 
+
 <!-- Nav -->
 <nav>
-  <span class="nav-logo">SG</span>
+  <span class="nav-logo">Shraddha Gupte</span>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -311,22 +279,22 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
- 
+
 <!-- Hero -->
 <section id="hero">
   <div class="hero-grid">
     <div class="hero-text">
       <span class="hero-tagline">Data Analytics · Business Analytics · AI</span>
-      <h1 class="hero-name">Hey there,—<br><span class="grad">I'm Shraddha</span></h1>
+      <h1 class="hero-name">Hey, I'm Shraddha —<br><span class="grad">welcome to my world.</span></h1>
       <p class="hero-sub">A data analyst who transforms complex information into compelling stories that drive smart, human-centred decisions. From global HR systems to AI-powered tools — I build things that matter.</p>
       <div class="hero-pills">
-        <span class="pill">Tableau</span><span class="pill">Power BI</span><span class="pill">Python</span><span class="pill">SQL</span>
+        <span class="pill">Power BI</span><span class="pill">Python</span><span class="pill">SQL</span>
         <span class="pill">Machine Learning</span><span class="pill">People Analytics</span><span class="pill">Generative AI</span>
       </div>
       <div class="hero-btns">
         <a href="#experience" class="btn btn-primary">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
-          My Work
+          View My Work
         </a>
         <a href="#contact" class="btn btn-outline">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -339,15 +307,15 @@
       <div class="photo-accent"></div>
       <div class="photo-tilt">
         <div class="photo-frame">
-          <img src="af12de46-4a05-4003-90aa-4557a0a8130d.JPG"/>
+          <img src="shraddha.jpg" alt="Shraddha Gupte"/>
         </div>
       </div>
     </div>
   </div>
 </section>
- 
+
 <div class="section-divider"></div>
- 
+
 <!-- About -->
 <section id="about">
   <div class="section-inner">
@@ -383,16 +351,16 @@
     </div>
   </div>
 </section>
- 
+
 <div class="section-divider"></div>
- 
+
 <!-- Experience -->
 <section id="experience">
   <div class="section-inner">
     <p class="section-label">Career Journey</p>
     <h2 class="section-title">Work Experience</h2>
     <div class="timeline">
- 
+
       <div class="tl-item">
         <div class="tl-dot"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
         <div class="tl-card">
@@ -406,7 +374,7 @@
           </ul>
         </div>
       </div>
- 
+
       <div class="tl-item">
         <div class="tl-dot"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
         <div class="tl-card">
@@ -420,7 +388,7 @@
           </ul>
         </div>
       </div>
- 
+
       <div class="tl-item">
         <div class="tl-dot"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
         <div class="tl-card">
@@ -435,13 +403,13 @@
           </ul>
         </div>
       </div>
- 
+
     </div>
   </div>
 </section>
- 
+
 <div class="section-divider"></div>
- 
+
 <!-- Education -->
 <section id="education">
   <div class="section-inner">
@@ -469,9 +437,9 @@
     </div>
   </div>
 </section>
- 
+
 <div class="section-divider"></div>
- 
+
 <!-- Projects -->
 <section id="projects">
   <div class="section-inner">
@@ -505,9 +473,9 @@
     </div>
   </div>
 </section>
- 
+
 <div class="section-divider"></div>
- 
+
 <!-- Hobbies -->
 <section id="hobbies">
   <div class="section-inner">
@@ -523,9 +491,9 @@
     </div>
   </div>
 </section>
- 
+
 <div class="section-divider"></div>
- 
+
 <!-- Contact -->
 <section id="contact">
   <div class="section-inner">
@@ -555,59 +523,171 @@
     <p class="footer-copy">© 2025 Shraddha Gupte · Designed &amp; Built with ♥</p>
   </div>
 </section>
- 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+
+<script>
   /* ── Custom Cursor ── */
   const dot  = document.getElementById('cursor-dot');
   const ring = document.getElementById('cursor-ring');
   let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    document.body.style.cursor = 'none';
+    if (rx === 0 && ry === 0) { rx = mx; ry = my; }
+  });
   document.querySelectorAll('a, button').forEach(el => {
     el.addEventListener('mouseenter', () => { ring.style.width='54px'; ring.style.height='54px'; ring.style.borderColor='rgba(217,70,168,0.8)'; });
     el.addEventListener('mouseleave', () => { ring.style.width='38px'; ring.style.height='38px'; ring.style.borderColor='rgba(155,77,255,0.55)'; });
   });
   (function animateCursor() {
-    dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
     rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
     ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
     requestAnimationFrame(animateCursor);
   })();
- 
-  /* ── Particle Canvas ── */
+
+  /* ── Hex Grid Background Animation ── */
   const canvas = document.getElementById('bg-canvas');
   const ctx    = canvas.getContext('2d');
-  let W, H;
-  const mouse  = { x: -999, y: -999 };
-  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-  resize(); window.addEventListener('resize', resize);
+  let W, H, hexes = [];
+  const SIZE = 42;
+  const mouse = { x: -999, y: -999 };
+
   document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
- 
-  class Particle {
-    constructor() { this.reset(true); }
-    reset(init) {
-      this.x = Math.random() * W; this.y = init ? Math.random() * H : H + 10;
-      this.r = Math.random() * 1.6 + 0.3;
-      this.vx = (Math.random() - 0.5) * 0.25; this.vy = -(Math.random() * 0.35 + 0.08);
-      this.alpha = Math.random() * 0.45 + 0.08;
-      const roll = Math.random();
-      this.color = roll < 0.5 ? '155,77,255' : roll < 0.78 ? '217,70,168' : '156,163,175';
-    }
-    update() {
-      const dx = mouse.x - this.x, dy = mouse.y - this.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 130) { const f = (130-dist)/130; this.vx -= (dx/dist)*f*0.55; this.vy -= (dy/dist)*f*0.55; }
-      this.vx *= 0.978; this.vy *= 0.978;
-      this.x += this.vx; this.y += this.vy;
-      if (this.y < -10 || this.x < -10 || this.x > W+10) this.reset(false);
-    }
-    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fillStyle = `rgba(${this.color},${this.alpha})`; ctx.fill(); }
+
+  function hexCorner(cx, cy, s, i) {
+    const angle = Math.PI / 180 * (60 * i - 30);
+    return { x: cx + s * Math.cos(angle), y: cy + s * Math.sin(angle) };
   }
- 
-  const particles = Array.from({ length: 180 }, () => new Particle());
- 
-  function drawLines() {
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i+1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-        const d = Math.sqrt(dx*dx + dy*dy);
-        if (d < 95) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].
+
+  function buildGrid() {
+    hexes = [];
+    const w = SIZE * Math.sqrt(3);
+    const h = SIZE * 2;
+    const cols = Math.ceil(W / w) + 2;
+    const rows = Math.ceil(H / (h * 0.75)) + 2;
+    for (let row = -1; row < rows; row++) {
+      for (let col = -1; col < cols; col++) {
+        const cx = col * w + (row % 2 === 0 ? 0 : w / 2);
+        const cy = row * h * 0.75;
+        hexes.push({ cx, cy, phase: Math.random() * Math.PI * 2, speed: 0.006 + Math.random() * 0.008, baseAlpha: Math.random() * 0.06 + 0.03 });
+      }
+    }
+  }
+
+  function resizeBg() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resizeBg(); buildGrid();
+  window.addEventListener('resize', () => { resizeBg(); buildGrid(); });
+
+  /* Auto ripples */
+  const ripples = [];
+  function spawnRipple(x, y) {
+    ripples.push({
+      x: x != null ? x : Math.random() * W,
+      y: y != null ? y : Math.random() * H,
+      r: 0,
+      maxR: 240 + Math.random() * 160,
+      speed: 2 + Math.random(),
+      color: Math.random() < 0.5 ? '155,77,255' : '217,70,168'
+    });
+  }
+  setInterval(() => spawnRipple(), 1600);
+  spawnRipple(); spawnRipple(window.innerWidth * 0.5, window.innerHeight * 0.5);
+
+  /* Click = ripple at cursor */
+  document.addEventListener('click', () => spawnRipple(mouse.x, mouse.y));
+
+  /* Floating particles drifting upward */
+  const floaters = Array.from({ length: 55 }, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    vy: -(0.25 + Math.random() * 0.45),
+    vx: (Math.random() - 0.5) * 0.15,
+    alpha: Math.random() * 0.35 + 0.08,
+    size: Math.random() * 1.8 + 0.4,
+    col: Math.random() < 0.6 ? '155,77,255' : Math.random() < 0.5 ? '217,70,168' : '156,163,175',
+  }));
+
+  function drawHex(cx, cy, s) {
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+      const p = hexCorner(cx, cy, s, i);
+      i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+    }
+    ctx.closePath();
+  }
+
+  function bgLoop() {
+    ctx.clearRect(0, 0, W, H);
+
+    /* Update & cull ripples */
+    for (let k = ripples.length - 1; k >= 0; k--) {
+      ripples[k].r += ripples[k].speed;
+      if (ripples[k].r > ripples[k].maxR) ripples.splice(k, 1);
+    }
+
+    /* Hex cells */
+    hexes.forEach(h => {
+      h.phase += h.speed;
+      const pulse = Math.sin(h.phase) * 0.5 + 0.5;
+
+      const mdx = mouse.x - h.cx, mdy = mouse.y - h.cy;
+      const md  = Math.sqrt(mdx * mdx + mdy * mdy);
+      const mouseInfluence = Math.max(0, 1 - md / 160);
+
+      let rippleInfluence = 0, rippleColor = '155,77,255';
+      ripples.forEach(rip => {
+        const rdx = rip.x - h.cx, rdy = rip.y - h.cy;
+        const rd   = Math.sqrt(rdx * rdx + rdy * rdy);
+        const ring = Math.abs(rd - rip.r);
+        const inf  = ring < 30 ? (1 - ring / 30) * (1 - rip.r / rip.maxR) : 0;
+        if (inf > rippleInfluence) { rippleInfluence = inf; rippleColor = rip.color; }
+      });
+
+      const alpha = h.baseAlpha + pulse * 0.05 + mouseInfluence * 0.35 + rippleInfluence * 0.45;
+      const strokeCol = mouseInfluence > 0.25
+        ? `rgba(217,70,168,${alpha})`
+        : rippleInfluence > 0.08
+          ? `rgba(${rippleColor},${alpha})`
+          : `rgba(155,77,255,${alpha})`;
+
+      if (mouseInfluence > 0.35 || rippleInfluence > 0.25) {
+        drawHex(h.cx, h.cy, SIZE - 1);
+        const fillA = mouseInfluence * 0.12 + rippleInfluence * 0.15;
+        const col   = mouseInfluence > 0.35 ? '217,70,168' : rippleColor;
+        ctx.fillStyle = `rgba(${col},${fillA})`;
+        ctx.fill();
+      }
+
+      drawHex(h.cx, h.cy, SIZE - 1);
+      ctx.strokeStyle = strokeCol;
+      ctx.lineWidth   = mouseInfluence > 0.5 ? 1.2 : 0.8;
+      ctx.stroke();
+    });
+
+    /* Floating particles */
+    floaters.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.col},${p.alpha})`;
+      ctx.fill();
+    });
+
+    /* Cursor canvas glow */
+    if (mouse.x > 0) {
+      const mg = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 130);
+      mg.addColorStop(0, 'rgba(217,70,168,0.07)');
+      mg.addColorStop(1, 'rgba(217,70,168,0)');
+      ctx.fillStyle = mg;
+      ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 130, 0, Math.PI * 2); ctx.fill();
+    }
+
+    requestAnimationFrame(bgLoop);
+  }
+  bgLoop();
+</script>
+</body>
+</html>
