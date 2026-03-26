@@ -924,6 +924,13 @@
     requestAnimationFrame(bgLoop);
   }
   bgLoop();
+/* ── Certifications Modal ── */
+  const certModal    = document.getElementById('certModal');
+  const certShowMore = document.getElementById('certShowMore');
+  const certClose    = document.getElementById('certModalClose');
+  certShowMore.addEventListener('click', () => certModal.classList.add('open'));
+  certClose.addEventListener('click',    () => certModal.classList.remove('open'));
+  certModal.addEventListener('click', e => { if (e.target === certModal) certModal.classList.remove('open'); });
 </script>
 </body>
 </html>
