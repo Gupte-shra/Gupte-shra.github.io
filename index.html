@@ -206,7 +206,60 @@
     .cert-id { font-size: 0.68rem; color: var(--grey); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
     .cert-link { font-size: 0.75rem; font-weight: 600; color: var(--violet); white-space: nowrap; transition: color 0.2s; text-decoration: none !important; flex-shrink: 0; }
     .cert-link:hover { color: var(--rose); }
-
+     /* Show more button */
+    .show-more-btn {
+      display: flex; align-items: center; gap: 10px; margin: 0 auto;
+      padding: 13px 32px; border-radius: 99px;
+      background: transparent; border: 1.5px solid rgba(155,77,255,0.45);
+      color: var(--violet); font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: all 0.22s; font-family: 'DM Sans', sans-serif;
+    }
+    .show-more-btn:hover { background: rgba(155,77,255,0.1); border-color: var(--violet); transform: translateY(-2px); }
+    /* Modal overlay */
+    .cert-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .cert-modal-overlay.open { display: flex; }
+    .cert-modal {
+      background: #0e0e1a; border: 1px solid rgba(155,77,255,0.3);
+      border-radius: 20px; width: 100%; max-width: 900px;
+      max-height: 85vh; display: flex; flex-direction: column;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(155,77,255,0.1);
+    }
+    .cert-modal-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 2rem; border-bottom: 1px solid rgba(155,77,255,0.15);
+      flex-shrink: 0;
+    }
+    .cert-modal-head-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--white); }
+    .cert-modal-head-sub { font-size: 0.8rem; color: var(--grey); margin-top: 3px; }
+    .cert-modal-close {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      color: var(--grey); font-size: 1rem; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+    }
+    .cert-modal-close:hover { background: rgba(217,70,168,0.15); border-color: var(--pink); color: var(--white); }
+    .cert-modal-body {
+      padding: 1.5rem 2rem; overflow-y: auto;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;
+    }
+    .cert-modal-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(155,77,255,0.15);
+      border-radius: 0 12px 12px 0; border-left: 2px solid var(--purple);
+      padding: 1rem 1.1rem; display: flex; flex-direction: column;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cert-modal-card:nth-child(3n+2) { border-left-color: var(--pink); }
+    .cert-modal-card:nth-child(3n+3) { border-left-color: var(--grey-d); }
+    .cert-modal-card:hover { background: rgba(155,77,255,0.07); border-color: rgba(155,77,255,0.35); }
+    .cert-modal-title { font-size: 0.88rem; font-weight: 600; color: var(--white); line-height: 1.4; margin-bottom: 3px; }
+    .cert-modal-issuer { font-size: 0.78rem; color: var(--grey); margin-bottom: 0.65rem; }
+    .cert-modal-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(155,77,255,0.1); padding-top: 0.6rem; margin-top: auto; gap: 0.5rem; }
+    .cert-modal-id { font-size: 0.65rem; color: var(--grey); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 130px; }
+    @media (max-width: 768px) { .certs-grid { grid-template-columns: 1fr; } .cert-modal-body { grid-template-columns: 1fr; } }
 
     /* Experience */
     #experience { background: var(--black); }
@@ -501,17 +554,18 @@
 
 <div class="section-divider"></div>
 
-
 <!-- Certifications -->
 <section id="certifications">
   <div class="section-inner">
     <p class="section-label">Verified Credentials</p>
     <h2 class="section-title">Licences &amp; Certifications</h2>
+
+    <!-- 3 visible cards -->
     <div class="certs-grid">
 
       <div class="cert-card">
         <div class="cert-card-header">
-          <div class="cert-card-title">Data-Driven HR: AI-Powered People Analytics for Workforce Planning and Employee Experience</div>
+          <div class="cert-card-title">Data-Driven HR: AI-Powered People Analytics for Workforce Planning</div>
           <span class="cert-card-year">Jul 2025</span>
         </div>
         <div class="cert-card-issuer">SHRM</div>
@@ -548,113 +602,115 @@
         </div>
       </div>
 
-      <div class="cert-card">
-        <div class="cert-card-header">
-          <div class="cert-card-title">Graduate Leadership Institute</div>
-          <span class="cert-card-year">Apr 2025</span>
-        </div>
-        <div class="cert-card-issuer">Northeastern University</div>
-        <div class="cert-card-skills"><span class="cert-skill">Relationship Building</span><span class="cert-skill">Communication</span><span class="cert-skill">Leadership</span><span class="cert-skill">Social Justice</span></div>
-        <div class="cert-card-footer">
-          <span class="cert-id">Parchment Badge</span>
-          <a href="https://badges.parchment.com/public/assertions/WW1tbhiqQj6kl41UGafd8A?identity__email=gupte.shra@northeastern.edu" target="_blank" class="cert-link">View credential ↗</a>
+    </div>
+
+    <!-- Show more button -->
+    <div style="text-align:center;">
+      <button class="show-more-btn" id="certShowMore">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        Show 8 more certifications
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- Certifications Modal -->
+<div class="cert-modal-overlay" id="certModal">
+  <div class="cert-modal">
+    <div class="cert-modal-head">
+      <div>
+        <div class="cert-modal-head-title">All Certifications</div>
+        <div class="cert-modal-head-sub">11 verified licences &amp; credentials</div>
+      </div>
+      <button class="cert-modal-close" id="certModalClose">✕</button>
+    </div>
+    <div class="cert-modal-body">
+
+      <div class="cert-modal-card">
+        <div class="cert-modal-title">Graduate Leadership Institute</div>
+        <div class="cert-modal-issuer">Northeastern University · Apr 2025</div>
+        <div class="cert-card-skills"><span class="cert-skill">Leadership</span><span class="cert-skill">Communication</span><span class="cert-skill">Social Justice</span></div>
+        <div class="cert-modal-footer">
+          <span class="cert-modal-id">Parchment Badge</span>
+          <a href="https://badges.parchment.com/public/assertions/WW1tbhiqQj6kl41UGafd8A?identity__email=gupte.shra@northeastern.edu" target="_blank" class="cert-link">View ↗</a>
         </div>
       </div>
 
-      <div class="cert-card">
-        <div class="cert-card-header">
-          <div class="cert-card-title">Project Management: Preventing Scope Creep</div>
-          <span class="cert-card-year">Jan 2025</span>
-        </div>
-        <div class="cert-card-issuer">NASBA — National Association of State Boards of Accountancy</div>
+      <div class="cert-modal-card">
+        <div class="cert-modal-title">Project Management: Preventing Scope Creep</div>
+        <div class="cert-modal-issuer">NASBA · Jan 2025</div>
         <div class="cert-card-skills"><span class="cert-skill">Project Management</span><span class="cert-skill">Scope Management</span></div>
-        <div class="cert-card-footer">
-          <span class="cert-id">3796568652c68e54...</span>
-          <a href="https://www.linkedin.com/learning/certificates/3796568652c68e54f999015649cc269cd438041b8486728603349c4a7d38a109?u=74653650" target="_blank" class="cert-link">View credential ↗</a>
+        <div class="cert-modal-footer">
+          <span class="cert-modal-id">3796568652c68e54...</span>
+          <a href="https://www.linkedin.com/learning/certificates/3796568652c68e54f999015649cc269cd438041b8486728603349c4a7d38a109?u=74653650" target="_blank" class="cert-link">View ↗</a>
         </div>
       </div>
 
-      <div class="cert-card">
-        <div class="cert-card-header">
-          <div class="cert-card-title">Requirements Elicitation for Business Analysis: Stakeholder Conversations</div>
-          <span class="cert-card-year">Jan 2025</span>
-        </div>
-        <div class="cert-card-issuer">IIBA® — International Institute of Business Analysis</div>
-        <div class="cert-card-skills"><span class="cert-skill">Stakeholder Engagement</span><span class="cert-skill">Requirements Gathering</span><span class="cert-skill">Business Analysis</span></div>
-        <div class="cert-card-footer">
-          <span class="cert-id">b59f412c14ed80e4...</span>
-          <a href="https://www.linkedin.com/learning/certificates/b59f412c14ed80e4a810f118f7b5fc9f71fbde40b32fca7ba33f934fd82a3893?u=74653650" target="_blank" class="cert-link">View credential ↗</a>
+      <div class="cert-modal-card">
+        <div class="cert-modal-title">Requirements Elicitation for Business Analysis: Stakeholder Conversations</div>
+        <div class="cert-modal-issuer">IIBA® · Jan 2025</div>
+        <div class="cert-card-skills"><span class="cert-skill">Stakeholder Engagement</span><span class="cert-skill">Business Analysis</span></div>
+        <div class="cert-modal-footer">
+          <span class="cert-modal-id">b59f412c14ed80e4...</span>
+          <a href="https://www.linkedin.com/learning/certificates/b59f412c14ed80e4a810f118f7b5fc9f71fbde40b32fca7ba33f934fd82a3893?u=74653650" target="_blank" class="cert-link">View ↗</a>
         </div>
       </div>
 
-      <div class="cert-card">
-        <div class="cert-card-header">
-          <div class="cert-card-title">AI in the Workplace</div>
-          <span class="cert-card-year">Jan 2025</span>
-        </div>
-        <div class="cert-card-issuer">Northeastern University</div>
+      <div class="cert-modal-card">
+        <div class="cert-modal-title">AI in the Workplace</div>
+        <div class="cert-modal-issuer">Northeastern University · Jan 2025</div>
         <div class="cert-card-skills"><span class="cert-skill">AI Literacy</span><span class="cert-skill">Workplace AI</span></div>
-        <div class="cert-card-footer">
-          <span class="cert-id">679150db6fd78c27...</span>
-          <a href="https://badges.parchment.com/public/assertions/-uJTyl-PRJWHIUjLW1M2Kw" target="_blank" class="cert-link">View credential ↗</a>
+        <div class="cert-modal-footer">
+          <span class="cert-modal-id">679150db6fd78c27...</span>
+          <a href="https://badges.parchment.com/public/assertions/-uJTyl-PRJWHIUjLW1M2Kw" target="_blank" class="cert-link">View ↗</a>
         </div>
       </div>
 
-      <div class="cert-card">
-        <div class="cert-card-header">
-          <div class="cert-card-title">Project Management Foundations: Requirements</div>
-          <span class="cert-card-year">Jan 2025</span>
-        </div>
-        <div class="cert-card-issuer">Project Management Institute</div>
+      <div class="cert-modal-card">
+        <div class="cert-modal-title">Project Management Foundations: Requirements</div>
+        <div class="cert-modal-issuer">Project Management Institute · Jan 2025</div>
         <div class="cert-card-skills"><span class="cert-skill">Project Management</span><span class="cert-skill">Requirements Management</span></div>
-        <div class="cert-card-footer">
-          <span class="cert-id">13fdc2019a1db7f3...</span>
-          <span class="cert-id" style="color:var(--grey-d);font-family:'DM Sans',sans-serif;">No link provided</span>
+        <div class="cert-modal-footer">
+          <span class="cert-modal-id">13fdc2019a1db7f3...</span>
+          <span style="font-size:0.72rem;color:var(--grey);">No link provided</span>
         </div>
       </div>
 
-      <div class="cert-card">
-        <div class="cert-card-header">
-          <div class="cert-card-title">Data Visualization and Storytelling Basics</div>
-          <span class="cert-card-year">Jul 2024</span>
-        </div>
-        <div class="cert-card-issuer">Northeastern University</div>
+      <div class="cert-modal-card">
+        <div class="cert-modal-title">Data Visualization and Storytelling Basics</div>
+        <div class="cert-modal-issuer">Northeastern University · Jul 2024</div>
         <div class="cert-card-skills"><span class="cert-skill">Data Analysis</span><span class="cert-skill">Data Visualization</span></div>
-        <div class="cert-card-footer">
-          <span class="cert-id">669817d27a09de68...</span>
-          <a href="https://badges.parchment.com/public/assertions/10IKG1GwRjOZPcO9mK69XA" target="_blank" class="cert-link">View credential ↗</a>
+        <div class="cert-modal-footer">
+          <span class="cert-modal-id">669817d27a09de68...</span>
+          <a href="https://badges.parchment.com/public/assertions/10IKG1GwRjOZPcO9mK69XA" target="_blank" class="cert-link">View ↗</a>
         </div>
       </div>
 
-      <div class="cert-card">
-        <div class="cert-card-header">
-          <div class="cert-card-title">Introduction to Analytics</div>
-          <span class="cert-card-year">Feb 2024</span>
-        </div>
-        <div class="cert-card-issuer">Northeastern University</div>
+      <div class="cert-modal-card">
+        <div class="cert-modal-title">Introduction to Analytics</div>
+        <div class="cert-modal-issuer">Northeastern University · Feb 2024</div>
         <div class="cert-card-skills"><span class="cert-skill">Data Analysis</span><span class="cert-skill">Data Visualization</span></div>
-        <div class="cert-card-footer">
-          <span class="cert-id">65dca2a45b28bb21...</span>
-          <a href="https://badges.parchment.com/public/assertions/5KrI0RMqR2-aN7gIDAuBAw" target="_blank" class="cert-link">View credential ↗</a>
+        <div class="cert-modal-footer">
+          <span class="cert-modal-id">65dca2a45b28bb21...</span>
+          <a href="https://badges.parchment.com/public/assertions/5KrI0RMqR2-aN7gIDAuBAw" target="_blank" class="cert-link">View ↗</a>
         </div>
       </div>
 
-      <div class="cert-card">
-        <div class="cert-card-header">
-          <div class="cert-card-title">Bridging All Gaps Certification — Human Resource Management</div>
-          <span class="cert-card-year">Aug 2022</span>
-        </div>
-        <div class="cert-card-issuer">NMIMS — Narsee Monjee Institute of Management Studies</div>
+      <div class="cert-modal-card">
+        <div class="cert-modal-title">Bridging All Gaps Certification — Human Resource Management</div>
+        <div class="cert-modal-issuer">NMIMS · Aug 2022</div>
         <div class="cert-card-skills"><span class="cert-skill">Human Resources</span><span class="cert-skill">HR Management</span></div>
-        <div class="cert-card-footer">
-          <span class="cert-id">NMIMS Certification</span>
-          <span class="cert-id" style="color:var(--grey-d);font-family:'DM Sans',sans-serif;">No link provided</span>
+        <div class="cert-modal-footer">
+          <span class="cert-modal-id">NMIMS Certification</span>
+          <span style="font-size:0.72rem;color:var(--grey);">No link provided</span>
         </div>
       </div>
 
     </div>
   </div>
-</section>
+</div>
+
 
 <!-- Hobbies -->
 <section id="hobbies">
