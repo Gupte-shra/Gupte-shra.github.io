@@ -366,10 +366,6 @@
       <span class="hero-tagline">Data Analytics · Business Analytics · AI</span>
       <h1 class="hero-name">Hey! I'm Shraddha —<br><span class="grad">Lets begin exploring my jounrey...</span></h1>
       <p class="hero-sub">A data analyst who transforms complex information into compelling stories that drive smart, human-centred decisions. From global HR systems to AI-powered tools, I build things that matter.</p>
-      <div class="hero-pills">
-        <span class="pill">Power BI</span><span class="pill">Python</span><span class="pill">SQL</span>
-        <span class="pill">Machine Learning</span><span class="pill">People Analytics</span><span class="pill">Generative AI</span>
-      </div>
       <div class="hero-btns">
         <a href="#experience" class="btn btn-primary">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
@@ -414,6 +410,7 @@
           <span class="skill-tag">SQL</span><span class="skill-tag">R</span><span class="skill-tag">Snowflake</span>
           <span class="skill-tag">AWS</span><span class="skill-tag">Hadoop</span><span class="skill-tag">Workday</span>
           <span class="skill-tag">HRIS</span><span class="skill-tag">Machine Learning</span><span class="skill-tag">ETL Pipelines</span>
+          <span class="skill-tag">People Analytics</span><span class="skill-tag">Generative AI</span>
         </div>
       </div>
       <div>
@@ -439,7 +436,7 @@
     <div class="timeline">
 
        <div class="tl-item">
-        <div class="tl-dot"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="tl-dot"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
         <div class="tl-card">
           <div class="tl-header"><div class="tl-role">Program Manager and Analyst </div><span class="tl-date">Oct 2025 – Present</span></div>
           <div class="tl-company">Project Management Institute - Puget Sound Chapter, USA</div>
@@ -452,7 +449,7 @@
         </div>
       </div>
       <div class="tl-item">
-        <div class="tl-dot"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="tl-dot"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
         <div class="tl-card">
           <div class="tl-header"><div class="tl-role">Data Analyst — Capstone Project</div><span class="tl-date">Apr 2025 – Jun 2025</span></div>
           <div class="tl-company">Intelmatix, USA</div>
@@ -466,7 +463,7 @@
       </div>
 
       <div class="tl-item">
-        <div class="tl-dot"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div class="tl-dot"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
         <div class="tl-card">
           <div class="tl-header"><div class="tl-role">Graduate Data Analyst — Student Engagement</div><span class="tl-date">Jan 2024 – Jun 2025</span></div>
           <div class="tl-company">Northeastern University, USA</div>
@@ -731,7 +728,7 @@
     <p class="section-label"> Apart from data, other stuff I am passionate about..</p>
     <h2 class="section-title">Hobbies &amp; Interests</h2>
     <div class="hobby-grid">
-      <div class="hobby-card"><span class="hobby-emoji">📚</span><div class="hobby-name">Reading</div><div class="hobby-desc">Motivatioonal, Non-fiction &amp; behavioural economics; </div></div>
+      <div class="hobby-card"><span class="hobby-emoji">📚</span><div class="hobby-name">Reading</div><div class="hobby-desc">Motivational, Non-fiction &amp; behavioural economics; </div></div>
       <div class="hobby-card"><span class="hobby-emoji">🖌️</span><div class="hobby-name">Art &amp; Painting</div><div class="hobby-desc">An hour on Mandala, or Lanscape is like meditation &amp; focus</div></div>
       <div class="hobby-card"><span class="hobby-emoji">✈️</span><div class="hobby-name">Travelling</div><div class="hobby-desc">Explored 3/50 states, whats your count?</div></div>
       <div class="hobby-card"><span class="hobby-emoji">🎨</span><div class="hobby-name">Data Storytelling</div><div class="hobby-desc">Crafting visuals that captivate</div></div>
@@ -774,25 +771,6 @@
 
 
 <script>
-  /* ── Custom Cursor ── */
-  const dot  = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    document.body.style.cursor = 'none';
-    if (rx === 0 && ry === 0) { rx = mx; ry = my; }
-  });
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => { ring.style.width='54px'; ring.style.height='54px'; ring.style.borderColor='rgba(217,70,168,0.8)'; });
-    el.addEventListener('mouseleave', () => { ring.style.width='38px'; ring.style.height='38px'; ring.style.borderColor='rgba(155,77,255,0.55)'; });
-  });
-  (function animateCursor() {
-    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-    rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(animateCursor);
-  })();
 
   /* ── Hex Grid Background Animation ── */
   const canvas = document.getElementById('bg-canvas');
