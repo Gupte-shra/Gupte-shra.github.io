@@ -314,13 +314,67 @@
     .proj-tag { background: rgba(108,43,217,0.15); color: var(--violet); font-size: 0.73rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; border: 1px solid rgba(155,77,255,0.2); }
 
     /* Hobbies */
+    
     #hobbies { background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(108,43,217,0.12) 0%, transparent 60%), var(--deep); }
     .hobby-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; }
-    .hobby-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem 1rem; text-align: center; transition: border-color 0.25s, transform 0.25s; }
-    .hobby-card:hover { border-color: rgba(217,70,168,0.4); transform: translateY(-4px); }
+    .hobby-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem 1rem;
+      text-align: center; transition: border-color 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .hobby-card.has-gallery { cursor: pointer; }
+    .hobby-card.has-gallery:hover { border-color: rgba(217,70,168,0.5); transform: translateY(-4px); box-shadow: 0 0 30px rgba(217,70,168,0.15); }
+    .hobby-card:not(.has-gallery):hover { border-color: rgba(155,77,255,0.3); transform: translateY(-3px); }
+    .gallery-badge {
+      position: absolute; top: 10px; right: 10px;
+      width: 22px; height: 22px; border-radius: 6px;
+      background: rgba(155,77,255,0.15); border: 1px solid rgba(155,77,255,0.35);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gallery-badge svg { width: 11px; height: 11px; stroke: var(--violet); fill: none; stroke-width: 2; }
     .hobby-emoji { font-size: 2rem; display: block; margin-bottom: 0.65rem; }
-    .hobby-name { font-family: 'DM Serif Display', serif; font-weight: 700; color: var(--white); font-size: 0.92rem; }
+    .hobby-name { font-family: 'DM Serif Display', serif; font-weight: 400; color: var(--white); font-size: 0.92rem; }
     .hobby-desc { font-size: 0.78rem; color: var(--grey); margin-top: 5px; }
+   
+    /* Hobby lightbox */
+    .hobby-lightbox-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .hobby-lightbox-overlay.open { display: flex; }
+    .hobby-lightbox {
+      background: #0e0e1a; border: 1px solid rgba(155,77,255,0.3);
+      border-radius: 20px; width: 100%; max-width: 620px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+      overflow: hidden;
+    }
+    .hobby-lb-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(155,77,255,0.15);
+    }
+    .hobby-lb-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--white); display: flex; align-items: center; gap: 10px; }
+    .hobby-lb-close {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      color: var(--grey); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.9rem; transition: all 0.2s;
+    }
+    .hobby-lb-close:hover { background: rgba(217,70,168,0.15); border-color: var(--pink); color: var(--white); }
+    .hobby-lb-body { padding: 1.25rem 1.5rem; }
+    .hobby-lb-caption { font-size: 0.85rem; color: var(--grey); margin-bottom: 1.1rem; line-height: 1.65; }
+    .hobby-img-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .hobby-img-slot {
+      aspect-ratio: 1; border-radius: 10px; overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(155,77,255,0.25);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px;
+    }
+    .hobby-img-slot img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 10px; }
+    .hobby-img-slot.empty svg { width: 20px; height: 20px; stroke: rgba(155,77,255,0.4); fill: none; stroke-width: 1.5; }
+    .hobby-img-slot.empty span { font-size: 0.65rem; color: rgba(155,77,255,0.4); }
 
     /* Contact */
     #contact {
@@ -740,11 +794,37 @@
     <p class="section-label"> Apart from data, other stuff I am passionate about..</p>
     <h2 class="section-title">Hobbies &amp; Interests</h2>
     <div class="hobby-grid">
-      <div class="hobby-card"><span class="hobby-emoji">📚</span><div class="hobby-name">Reading</div><div class="hobby-desc">Motivational, Non-fiction &amp; behavioural economics; </div></div>
-      <div class="hobby-card"><span class="hobby-emoji">🖌️</span><div class="hobby-name">Art &amp; Painting</div><div class="hobby-desc">An hour on Mandala, or Lanscape is like meditation &amp; focus</div></div>
-      <div class="hobby-card"><span class="hobby-emoji">✈️</span><div class="hobby-name">Travelling</div><div class="hobby-desc">Explored 3/50 states, whats your count?</div></div>
+      
+      <div class="hobby-card has-gallery" onclick="openHobby('reading')">
+        <div class="gallery-badge"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <span class="hobby-emoji">📚</span>
+        <div class="hobby-name">Art</div>
+        <div class="hobby-desc">Motivational, Non-fiction &amp; behavioural economics;</div>
+      </div>
+         
+      <div class="hobby-card has-gallery" onclick="openHobby('art')">
+        <div class="gallery-badge"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <span class="hobby-emoji">🖌️</span>
+        <div class="hobby-name">Art</div>
+        <div class="hobby-desc">An hour on Mandala, or Lanscape is like meditation &amp; focus</div>
+      </div>
+    
+      <div class="hobby-card has-gallery" onclick="openHobby('travelling')">
+        <div class="gallery-badge"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <span class="hobby-emoji">✈️</span>
+        <div class="hobby-name">Travelling</div>
+        <div class="hobby-desc">Explored 3/50 states, whats your count?</div>
+      </div>
+      
+       <div class="hobby-card has-gallery" onclick="openHobby('cooking')">
+        <div class="gallery-badge"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <span class="hobby-emoji">🍳</span>
+        <div class="hobby-name">Cooking</div>
+        <div class="hobby-desc">Experimenting with global cuisines, recently experimented with poached eggs.</div>
+      </div>
+      
       <div class="hobby-card"><span class="hobby-emoji">🎨</span><div class="hobby-name">Data Storytelling</div><div class="hobby-desc">Crafting visuals that captivate</div></div>
-      <div class="hobby-card"><span class="hobby-emoji">🍳</span><div class="hobby-name">Cooking</div><div class="hobby-desc">Experimenting with global cuisines, recently experimented with poached eggs.</div></div>
+  
       <div class="hobby-card"><span class="hobby-emoji">🎧</span><div class="hobby-name">Music</div><div class="hobby-desc">From Oldies to being a little Swiftiee with a hint lo-fi beats</div></div>
     </div>
   </div>
@@ -926,6 +1006,72 @@
     requestAnimationFrame(bgLoop);
   }
   bgLoop();
+
+/* ── Hobby Lightbox ── */
+  const hobbyData = {
+     reading: {
+      title: '📚 Reading',
+      caption: 'Current Book..',
+      images: [
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+      ]
+    },
+    art: {
+      title: '🖌️ Art',
+      caption: 'I call it my digital art gallery',
+      images: [
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+      ]
+    travelling: {
+      title: '✈️ Travelling',
+      caption: 'Adventure so far...',
+      images: [
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+      ]
+    },
+    cooking: {
+      title: '🍳 Cooking',
+      caption: 'One recipe at a time..',
+      images: [
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+        { src: '', label: 'Add photo' },
+      ]
+    }
+  };
+ 
+  function openHobby(id) {
+    const d = hobbyData[id];
+    document.getElementById('hb-title').textContent = d.title;
+    document.getElementById('hb-caption').textContent = d.caption;
+    const grid = document.getElementById('hb-grid');
+    grid.innerHTML = d.images.map(img =>
+      img.src
+        ? `<div class="hobby-img-slot"><img src="${img.src}" alt="${d.title}"/></div>`
+        : `<div class="hobby-img-slot empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>${img.label}</span></div>`
+    ).join('');
+    document.getElementById('hobbyLightbox').classList.add('open');
+  }
+ 
+  function closeHobby() {
+    document.getElementById('hobbyLightbox').classList.remove('open');
+  }
+ 
+  document.getElementById('hobbyLightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeHobby();
+  });
+ 
 /* ── Certifications Modal ── */
   const certModal    = document.getElementById('certModal');
   const certShowMore = document.getElementById('certShowMore');
