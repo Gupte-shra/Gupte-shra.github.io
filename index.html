@@ -1051,7 +1051,7 @@
     }
   };
  
-  function openHobby(id) {
+  window.openHobby = function(id) {
     const d = hobbyData[id];
     document.getElementById('hb-title').textContent = d.title;
     document.getElementById('hb-caption').textContent = d.caption;
@@ -1064,7 +1064,7 @@
     document.getElementById('hobbyLightbox').classList.add('open');
   }
  
-  function closeHobby() {
+  window.closeHobby = function () {
     document.getElementById('hobbyLightbox').classList.remove('open');
   }
  
