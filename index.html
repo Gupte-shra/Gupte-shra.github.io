@@ -336,8 +336,7 @@
     .hobby-emoji { font-size: 2rem; display: block; margin-bottom: 0.65rem; }
     .hobby-name { font-family: 'DM Serif Display', serif; font-weight: 400; color: var(--white); font-size: 0.92rem; }
     .hobby-desc { font-size: 0.78rem; color: var(--grey); margin-top: 5px; }
-   
-    /* Hobby lightbox */
+     /* Hobby lightbox */
     .hobby-lightbox-overlay {
       display: none; position: fixed; inset: 0; z-index: 1000;
       background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
@@ -829,6 +828,20 @@
     </div>
   </div>
 </section>
+
+  <!-- Hobby Lightbox -->
+<div class="hobby-lightbox-overlay" id="hobbyLightbox">
+  <div class="hobby-lightbox">
+    <div class="hobby-lb-head">
+      <div class="hobby-lb-title" id="hb-title">✈️ Travelling</div>
+      <button class="hobby-lb-close" onclick="closeHobby()">✕</button>
+    </div>
+    <div class="hobby-lb-body">
+      <p class="hobby-lb-caption" id="hb-caption"></p>
+      <div class="hobby-img-grid" id="hb-grid"></div>
+    </div>
+  </div>
+</div>
 
 <div class="section-divider"></div>
 
